@@ -278,3 +278,74 @@ Target country partition specified: ['India']
 PROCESSING COUNTRY PARTITION: India
 --------------------------------------------------------------------------------
 Streaming and indexing India records from train_source2.tsv...
+Streaming and indexing India records from train_source3.tsv...
+Indexed 2,017,799 S2 records and 2,115,547 S3 records for India.
+Finalizing indices and applying frequency caps for India...
+
+--- India Index Posting Distribution & Frequency Capping ---
+Index          Total Keys   Total Postings    p50    p90    p99      Max    Cap    Capped Keys  Capped Postings %
+--------------------------------------------------------------------------------------------------------------
+name              522,735       11,708,870      1      6    175  294,695  2,000     512 (0.10%)             63.09%
+digit              16,884        2,583,525      6    123   3403   26,513  5,000      86 (0.51%)             29.89%
+word              400,417       24,067,878      4     21    428  767,228  2,000   1,019 (0.25%)             71.08%
+
+Streaming S1 records for India and generating candidates...
+Finished India partition: 883,188 S1 records in 17743.1s
+
+================================================================================
+PHASE 2/3 COMPLETE SUMMARY TABLE
+================================================================================
+
+1. CANDIDATE RECALL BY SEGMENT & PASS BREAKDOWN:
+Segment                 Total Pairs   Union Recall    Name Pass   Digit Pass    Word Pass
+----------------------------------------------------------------------------------------
+(a) All True Matches      3,059,843         89.45%       51.38%       27.82%       71.46%
+(b) Same-Script           2,527,812         92.03%       62.19%       27.73%       72.21%
+(c) Cross-Script            532,031         77.16%        0.05%       28.24%       67.90%
+
+2. TWO-DIMENSIONAL BREAKDOWN (COUNTRY x S1 SCRIPT GROUP):
+Country    S1 Script     S1 Count      w/ GT   True Pairs   Union Recall   Name Pass   Digit Pass   Word Pass   Mean Cands   Median      p90      p99      Max
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+India      Non-Latin            1          1            2        100.00%     100.00%      100.00%      50.00%       1391.0     1391     1391     1391    1,391
+India      Latin          883,187    833,836    3,059,841         89.45%      51.38%       27.82%      71.46%       1928.0     1505     4411     7611   30,684
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+3. NON-LATIN SCRIPT: PASS EXCLUSIVITY & ADDRESS WORD CONTRIBUTION:
+  Total Non-Latin True Match Pairs : 2
+  Total Recalled (Union Hits)      : 2 (100.00%)
+  Missed by All Passes             : 0 (0.00%)
+
+  Pass Participation Combinations (Where Non-Latin matches were found):
+    - Name only (missed by Digit & Word)     :        0 ( 0.00%)
+    - Digit only (missed by Name & Word)     :        0 ( 0.00%)
+    - Word only (UNIQUE to Word Pass)        :        0 ( 0.00%)
+    - Name + Digit (redundant w/o Word)      :        1 (50.00%)
+    - Name + Word                            :        0 ( 0.00%)
+    - Digit + Word                           :        0 ( 0.00%)
+    - All Three (Name + Digit + Word)        :        1 (50.00%)
+
+  Marginal Impact of Address Word-Token Pass on Non-Latin Recall:
+    - Recall WITHOUT Address Word Pass (Name | Digit) : 2 (100.00%)
+    - Recall WITH Address Word Pass (Full Union)      : 2 (100.00%)
+    - Net Recall LOST if Address Word Pass removed     : 0 (0.00%)
+
+4. CANDIDATE COUNT DISTRIBUTION PER S1 ENTITY:
+  Total S1 Entities Processed: 883,188
+  Total Candidate Pairs Generated: 1,702,811,626
+  Mean Candidates per S1   : 1928.03
+  Median (p50) per S1      : 1505.0
+  p90 per S1               : 4411.0
+  p95 per S1               : 5415.0
+  p99 per S1               : 7611.0
+  Max Candidates per S1    : 30,684
+
+5. RUNTIME & SYSTEM PERFORMANCE:
+  Total Wall-Clock Runtime : 17752.5 seconds (295.87 minutes)
+  Processing Speed         : 49.8 S1 records/second
+
+6. TARGET RECALL CHECK (Target >= 0.97):
+  >> NOTICE: Overall Recall = 89.446% (Expected ceiling due to ~4% non-numeric cross-script: ~96.03%)
+
+================================================================================
+PHASE 2/3 COMPLETE
+================================================================================
