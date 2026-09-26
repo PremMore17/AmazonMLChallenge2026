@@ -1,0 +1,280 @@
+================================================================================
+STEP 1: NORMALIZATION SANITY CHECK (2,000 ROWS PER SOURCE)
+================================================================================
+
+--- Targeted Unit Verification of Fixes ---
+  [PASS] normalize_name('Mált Inc') -> 'malt'
+  [PASS] normalize_name('Mált L.L.C.') -> 'malt'
+  [PASS] normalize_name('Sweet Barbershop L.L.C.') -> 'sweet barbershop'
+  [PASS] normalize_name('Fresh Truist U.S.A. Inc.') -> 'fresh truist usa'
+  [PASS] normalize_address('Láne St.') -> 'lane street'
+  [PASS] normalize_address('210 Driver Street, NULL, Drham, North Carolina') -> '210 driver street drham north carolina'
+  [PASS] normalize_name('बाबा ट्रेडिंग प्राइवेट लिमिटेड') -> 'बाबा ट्रेडिंग प्राइवेट लिमिटेड'
+  [PASS] normalize_name('ಡ್ರೀಮ್ ಟೆಕ್ನಾಲಜಿ ಪ್ರೈವೇಟ್ ಲಿಮಿಟೆಡ್') -> 'ಡ್ರೀಮ್ ಟೆಕ್ನಾಲಜಿ ಪ್ರೈವೇಟ್ ಲಿಮಿಟೆಡ್'
+  [PASS] clean_text(nan) -> ''
+  [PASS] clean_text('null') -> ''
+  [PASS] clean_text(None) -> ''
+
+--- Sampling 2,000 rows from train_source1.tsv ---
+
+[normalize_name] 15 Before / After examples from train_source1.tsv:
+  BEFORE: 'Gardiner & Welsh L.L.C.'
+  AFTER : 'gardiner and welsh'
+  BEFORE: 'Gusto Power (India) Private Limited'
+  AFTER : 'gusto power india'
+  BEFORE: 'Ramirez Starry, LLC'
+  AFTER : 'ramirez starry'
+  BEFORE: 'V+ Triumph LLC'
+  AFTER : 'v triumph'
+  BEFORE: 'Royal Energy Private Limited'
+  AFTER : 'royal energy'
+  BEFORE: 'Amezquita Therapy LLC'
+  AFTER : 'amezquita therapy'
+  BEFORE: 'Schuh and Edwards Mae L.L.C.'
+  AFTER : 'schuh and edwards mae'
+  BEFORE: 'Solutions Apl Green'
+  AFTER : 'solutions apl green'
+  BEFORE: 'Secure Healthcare Inc'
+  AFTER : 'secure healthcare'
+  BEFORE: 'All Builders Private Limited'
+  AFTER : 'all builders'
+  BEFORE: 'Tirupati Future Finance Private Limited'
+  AFTER : 'tirupati future finance'
+  BEFORE: 'Silver Mines Inc'
+  AFTER : 'silver mines'
+  BEFORE: 'Supreme Media Limited'
+  AFTER : 'supreme media'
+  BEFORE: 'Norris Capital LP'
+  AFTER : 'norris capital lp'
+  BEFORE: 'Cornerstone Properties LLC'
+  AFTER : 'cornerstone properties'
+
+[normalize_address] 15 Before / After examples from train_source1.tsv:
+  BEFORE: 'Palos Heights, 12407 Melvina Avenue, IL'
+  AFTER : 'palos heights 12407 melvina avenue il'
+  BEFORE: '4914 Glasgow Place, Prescott Valley, AZ'
+  AFTER : '4914 glasgow place prescott valley az'
+  BEFORE: 'P Iv-61 Lajpat Nagar Iv, Delhi, South Delhi, Delhi'
+  AFTER : 'p iv 61 lajpat nagar iv delhi south delhi delhi'
+  BEFORE: 'Gadchiroli, Aheri, 14 Khamancheru, Maharashtra'
+  AFTER : 'gadchiroli aheri 14 khamancheru maharashtra'
+  BEFORE: 'Unit 15, Louisville, 3725 Klondike Ln, KY'
+  AFTER : 'unit 15 louisville 3725 klondike lane ky'
+  BEFORE: 'Salt Lake City, Unit 305, 74 600, UT'
+  AFTER : 'salt lake city unit 305 74 600 ut'
+  BEFORE: '308 Cedar Street, Goodlettsville, TN'
+  AFTER : '308 cedar street goodlettsville tn'
+  BEFORE: '307 Cainsville Court, Unit 9C, Lebanon, TN'
+  AFTER : '307 cainsville court unit 9c lebanon tn'
+  BEFORE: '324 Duff Avenue, Clarksburg, WV'
+  AFTER : '324 duff avenue clarksburg wv'
+  BEFORE: '60 Forest Road, Mt Hermon, CA'
+  AFTER : '60 forest road mt hermon ca'
+  BEFORE: 'OH, 7495 Lauren J Drive, Mentor'
+  AFTER : 'oh 7495 lauren j drive mentor'
+  BEFORE: '127 Bradford Street, Provincetown, MA'
+  AFTER : '127 bradford street provincetown ma'
+  BEFORE: '25054 Brett Street, Plainfield, IL'
+  AFTER : '25054 brett street plainfield il'
+  BEFORE: 'C/O Amritesh, Uma Shankar Prasad, 71 Behind Keshav Hospital, Saguna, Danapur, Patna, Bihar'
+  AFTER : 'c o amritesh uma shankar prasad 71 behind keshav hospital saguna danapur patna bihar'
+  BEFORE: '823 11 Street, Toledo, OH'
+  AFTER : '823 11 street toledo oh'
+
+[Token Extraction] 5 Examples from train_source1.tsv:
+  RAW ADDR : 'Rising Star, TX, 502 36'
+  DIGITS (\d{3,}): ['502']
+  WORD TOKENS (len>=4, ASCII): ['rising', 'star']
+  RAW ADDR : '1765 B Street, Salem, OR'
+  DIGITS (\d{3,}): ['1765']
+  WORD TOKENS (len>=4, ASCII): ['salem', 'street']
+  RAW ADDR : 'R S No.148/E, Plot No.17, Shri Ram Bhanjar Bhavan, Gadag, Karnataka'
+  DIGITS (\d{3,}): ['148']
+  WORD TOKENS (len>=4, ASCII): ['bhanjar', 'bhavan', 'gadag', 'karnataka', 'plot', 'shri']
+  RAW ADDR : 'Boston, 31 Floyd Street, MA'
+  DIGITS (\d{3,}): []
+  WORD TOKENS (len>=4, ASCII): ['boston', 'floyd', 'street']
+  RAW ADDR : '5643 Govane Avenue, Baltimore, MD'
+  DIGITS (\d{3,}): ['5643']
+  WORD TOKENS (len>=4, ASCII): ['avenue', 'baltimore', 'govane']
+
+--- Sampling 2,000 rows from train_source2.tsv ---
+
+[normalize_name] 15 Before / After examples from train_source2.tsv:
+  BEFORE: 'CA Textiles Associates Corporation'
+  AFTER : 'ca textiles'
+  BEFORE: '... Valley League Harbor Queen Creek of'
+  AFTER : 'valley league harbor queen creek of'
+  BEFORE: 'Cuevas LLC Center'
+  AFTER : 'cuevas llc center'
+  BEFORE: 'MW Communication-Limited'
+  AFTER : 'mw communication'
+  BEFORE: 'Avanti & Associates'
+  AFTER : 'avanti and'
+  BEFORE: 'Pvt Global Trading Ltd'
+  AFTER : 'global trading'
+  BEFORE: 'Cbg &'
+  AFTER : 'cbg and'
+  BEFORE: 'LINDSEY  BEST CORP'
+  AFTER : 'lindsey best'
+  BEFORE: 'New Delhi Commerce'
+  AFTER : 'new delhi commerce'
+  BEFORE: 'VA Corporate Group'
+  AFTER : 'va corporate group'
+  BEFORE: 'જય ઇન્ફ્રાસ્ટ્રક્ચર પ્રા. લિ.'
+  AFTER : 'જય ઇન્ફ્રાસ્ટ્રક્ચર પ્રા લિ'
+  BEFORE: 'Raj Dream  Consultants Private Limited'
+  AFTER : 'raj dream consultants'
+  BEFORE: 'National Regional Sunsine L.L.C.'
+  AFTER : 'national regional sunsine'
+  BEFORE: 'Lerodyne Clinic'
+  AFTER : 'lerodyne clinic'
+  BEFORE: 'GLOBAL CENTER'
+  AFTER : 'global center'
+
+[normalize_address] 15 Before / After examples from train_source2.tsv:
+  BEFORE: 'OFFICE A - 367, MARVEL VISTA SN-599A/598/593A CTS-3668, PUNE, Maharashtra'
+  AFTER : 'office a 367 marvel vista sn 599a 598 593a cts 3668 pune maharashtra'
+  BEFORE: 'PLOT NO. 39 FLAT NO. 96 SHAVARKAR APPT I P EXTN., PATPARGANJ, Delhi'
+  AFTER : 'plot number 39 flat number 96 shavarkar appt i p extension patparganj delhi'
+  BEFORE: 'KINGSPORT, 0552 EASTERN STAR ROAD, TN'
+  AFTER : 'kingsport 0552 eastern star road tn'
+  BEFORE: 'Tamil Nadu, 1, PRESTIGE POINT, 16, HADDOWSROAD, CHENNAI'
+  AFTER : 'tamil nadu 1 prestige point 16 haddowsroad chennai'
+  BEFORE: 'TOLEDO, CRYSTAL STREET, OH'
+  AFTER : 'toledo crystal street oh'
+  BEFORE: '4178 4135, WEST VALLEY CITY, UT'
+  AFTER : '4178 4135 west valley city ut'
+  BEFORE: 'Karnataka, NO 896 , 4 TH CROSS, 7 TH MAIN HAL 2ND STAGE INDIRANAGARA, BANGALORE'
+  AFTER : 'karnataka number 896 4 th cross 7 th main hal 2nd stage indiranagara bangalore'
+  BEFORE: '124 NORIAM WAY, HAGUE, VA'
+  AFTER : '124 noriam way hague va'
+  BEFORE: '4011 44TH ST, PHOENIX, AZ'
+  AFTER : '4011 44th street phoenix az'
+  BEFORE: '253 MADISON AVENUE, BRIDGEPORT, CT'
+  AFTER : '253 madison avenue bridgeport court'
+  BEFORE: 'A-3 ROSE GARDEN DATTA, MANDIR RD VAKOLA PIPELINE, MUMBAI, Maharashtra'
+  AFTER : 'a 3 rose garden datta mandir road vakola pipeline mumbai maharashtra'
+  BEFORE: 'H.NO 15 , SHREEDHANLAXMI SOCIETY, CTS NO 3025/6, S NO 93A/1, OFF S B ROAD, PUNE, Maharashtra'
+  AFTER : 'hno 15 shreedhanlaxmi society cts number 3025 6 s number 93a 1 off s b road pune maharashtra'
+  BEFORE: '14100 1/2 OSBORNE AVENUE, MARLBORO TWP, OH'
+  AFTER : '14100 1 2 osborne avenue marlboro township oh'
+  BEFORE: '97 TOWN SHED RD, DEPOSIT, NY'
+  AFTER : '97 town shed road deposit ny'
+  BEFORE: 'H.NO 304  GIDC SACHIN VILLAGE SACHIN TAL CHORASI, SURAT, Gujarat'
+  AFTER : 'hno 304 gidc sachin village sachin tal chorasi surat gujarat'
+
+[Token Extraction] 5 Examples from train_source2.tsv:
+  RAW ADDR : 'DES MOINES, IA, 583 6TH STREET'
+  DIGITS (\d{3,}): ['583']
+  WORD TOKENS (len>=4, ASCII): ['moines', 'street']
+  RAW ADDR : '2545 NEWBURG ST, HALEYVILLE CITY, AL'
+  DIGITS (\d{3,}): ['2545']
+  WORD TOKENS (len>=4, ASCII): ['city', 'haleyville', 'newburg']
+  RAW ADDR : '7825 PALOMA AVE, MESA FOUR PEAKS, AZ'
+  DIGITS (\d{3,}): ['7825']
+  WORD TOKENS (len>=4, ASCII): ['four', 'mesa', 'paloma', 'peaks']
+  RAW ADDR : '2973 329TH PL, RAVENSDALE, WA'
+  DIGITS (\d{3,}): ['2973', '329']
+  WORD TOKENS (len>=4, ASCII): ['329th', 'ravensdale']
+  RAW ADDR : 'LINDSAAY, 17281 STATE HIGHWAY 76, OK'
+  DIGITS (\d{3,}): ['17281']
+  WORD TOKENS (len>=4, ASCII): ['highway', 'lindsaay', 'state']
+
+--- Sampling 2,000 rows from train_source3.tsv ---
+
+[normalize_name] 15 Before / After examples from train_source3.tsv:
+  BEFORE: 'Smith and Baxter Coastal Co'
+  AFTER : 'smith and baxter coastal'
+  BEFORE: 'Jar1yx 5mart, LLC'
+  AFTER : 'jar1yx 5mart'
+  BEFORE: 'Craft Gobnee Cleaning Service (Inc)'
+  AFTER : 'craft gobnee cleaning service'
+  BEFORE: 'selectsciences.com'
+  AFTER : 'selectsciences com'
+  BEFORE: 'Synverajax'
+  AFTER : 'synverajax'
+  BEFORE: 'Veorizasyn DBA: International Trading LLP'
+  AFTER : 'veorizasyn dba international trading'
+  BEFORE: 'Dah1gren Transport of Naperville'
+  AFTER : 'dah1gren transport of naperville'
+  BEFORE: 'RUR National Caanda'
+  AFTER : 'rur national caanda'
+  BEFORE: 'MKI  8everages'
+  AFTER : 'mki 8everages'
+  BEFORE: 'Weldonsciencewayland.Com'
+  AFTER : 'weldonsciencewayland com'
+  BEFORE: 'Smith, Cassondra Bay Inc Center'
+  AFTER : 'smith cassondra bay inc center'
+  BEFORE: 'Enterprises Aashka Brains Private'
+  AFTER : 'aashka brains'
+  BEFORE: 'Hua, Jorrie, L.C.S.W., PC Holdings'
+  AFTER : 'hua jorrie lcsw'
+  BEFORE: 'Clark Piedmont Benst LLC'
+  AFTER : 'clark piedmont benst'
+  BEFORE: 'Luna Sqúare Inc #37736'
+  AFTER : 'luna square inc 37736'
+
+[normalize_address] 15 Before / After examples from train_source3.tsv:
+  BEFORE: '10133b Nedra Dr, Great Faalls, Virginia'
+  AFTER : '10133b nedra drive great faalls virginia'
+  BEFORE: 'H.no 9/6145A Ground Floor, Shivaji Gali Gandhi Nagar, East Delhi, DL'
+  AFTER : 'hno 9 6145a ground floor shivaji gali gandhi nagar east delhi dl'
+  BEFORE: 'B-496majlis Park, New Delhi, North Delhi, दिल्ली'
+  AFTER : 'b 496majlis park new delhi north delhi दिलली'
+  BEFORE: 'Booneville, Kentucky, 11'
+  AFTER : 'booneville kentucky 11'
+  BEFORE: '1227 Tugwell Drive, Catonsville, Maryland'
+  AFTER : '1227 tugwell drive catonsville maryland'
+  BEFORE: 'House No. 349, Patiala, PB'
+  AFTER : 'house number 349 patiala pb'
+  BEFORE: 'Lucknow, उत्तर प्रदेश, Lucknow, B2 1402 14Th Floor Dlf'
+  AFTER : 'lucknow उततर परदश lucknow b2 1402 14th floor dlf'
+  BEFORE: 'Briarcliff Lane, Spencer, Massachusetts'
+  AFTER : 'briarcliff lane spencer massachusetts'
+  BEFORE: '354 Mountainside Road, Carrabassett Valley, Maine'
+  AFTER : '354 mountainside road carrabassett valley maine'
+  BEFORE: '359 B, Roseville, Minnesota'
+  AFTER : '359 b roseville minnesota'
+  BEFORE: '797, Sri Laxmi Nagar, Ghatkesar, Hyderabad, TG'
+  AFTER : '797 sri laxmi nagar ghatkesar hyderabad tg'
+  BEFORE: '024534 Bay Hill Blvd, Katy, Texas'
+  AFTER : '024534 bay hill boulevard katy texas'
+  BEFORE: '3914 Railroad Avenue, Williamson, New York'
+  AFTER : '3914 railroad avenue williamson new york'
+  BEFORE: '210 Pinewood Ave, Missouri, Republic'
+  AFTER : '210 pinewood avenue missouri republic'
+  BEFORE: '619-D Lafayette Rd, Unit Apartment 204, Saint Paul, Minnesota'
+  AFTER : '619 d lafayette road unit apartment 204 saint paul minnesota'
+
+[Token Extraction] 5 Examples from train_source3.tsv:
+  RAW ADDR : '53rd Street, Phoenix, Arizona'
+  DIGITS (\d{3,}): []
+  WORD TOKENS (len>=4, ASCII): ['53rd', 'arizona', 'phoenix', 'street']
+  RAW ADDR : '1210 Fisher Saint, Morehead City, North Carolina'
+  DIGITS (\d{3,}): ['1210']
+  WORD TOKENS (len>=4, ASCII): ['carolina', 'city', 'fisher', 'morehead', 'north', 'saint']
+  RAW ADDR : 'Plot No - D133/c, Phase 7, Industrial Area, S.a.s.nagar (Mohali), Rupnagar, PB'
+  DIGITS (\d{3,}): ['133']
+  WORD TOKENS (len>=4, ASCII): ['area', 'd133', 'industrial', 'mohali', 'nagar', 'phase', 'plot', 'rupnagar']
+  RAW ADDR : '721 Willis Ave, PMB 1330, Williston Park, New York'
+  DIGITS (\d{3,}): ['1330', '721']
+  WORD TOKENS (len>=4, ASCII): ['park', 'willis', 'williston', 'york']
+  RAW ADDR : 'N10409 Haynes Rd, Town Of Brooklyn, Wisconsin'
+  DIGITS (\d{3,}): ['10409']
+  WORD TOKENS (len>=4, ASCII): ['brooklyn', 'haynes', 'n10409', 'town', 'wisconsin']
+
+================================================================================
+STEPS 2, 3 & 4: INVERTED INDEX BLOCKING & RECALL BENCHMARK ON TRAIN
+================================================================================
+Configuration: name_cap=2000, digit_cap=5000, word_cap=2000
+
+Loading ground truth from D:\AmazonMLChallenge2026\dataset\train\train_ground_truth.tsv...
+Loaded ground truth for 2,206,821 S1 entities (7,638,365 unique matched target IDs).
+
+Target country partition specified: ['India']
+
+--------------------------------------------------------------------------------
+PROCESSING COUNTRY PARTITION: India
+--------------------------------------------------------------------------------
+Streaming and indexing India records from train_source2.tsv...

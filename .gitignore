@@ -1,0 +1,14 @@
+dataset/
+output/
+artifacts/
+src/artifacts/
+__pycache__/
+*.pyc
+*.log
+phase1_output.txt
+phase1b_output.txt
+*.tsv
+*.csv
+.DS_Store
+__MACOSX/
+Thumbs.db
